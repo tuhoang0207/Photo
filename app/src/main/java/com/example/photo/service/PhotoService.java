@@ -21,10 +21,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class photoService {
+public class PhotoService {
     private static final String urlPhotos = "https://jsonplaceholder.typicode.com/photos";
     private OkHttpClient okHttpClient = new OkHttpClient();
-    public void getPhoto(IPhotoServicesResponse PhotoServicesResponse) {
+    public void getPhoto(IPhotoServicesResponse photoServicesResponse) {
         okHttpClient.newCall(new Request.Builder().url(urlPhotos).build())
                 .enqueue(new Callback() {
                     @Override
@@ -41,16 +41,13 @@ public class photoService {
                                 JSONObject jsonObject = responseArray.getJSONObject(i);
                                 Photo photo = Photo.getFromJSONObject(jsonObject);
                                 photos.add(photo);
-
-
-
                             }
+                            photoServicesResponse.getPhotos(photos,"");
                         } catch (JSONException e) {
 
                             e.printStackTrace();
+                            photoServicesResponse.getPhotos(photos,"");
                         }
-                        response.body().string();
-                        PhotoServicesResponse.getPhotos(photos,"");
                     }
                 });
         Log.d("ddd", "getPhoto: ");
